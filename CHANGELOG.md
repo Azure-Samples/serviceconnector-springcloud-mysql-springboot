@@ -1,6 +1,6 @@
-## quickstart-spring-data-jdbc-mysql Changelog
+## serviceconnector-springcloud-mysql-springboot Changelog
 
 <a name="1.0.0"></a>
-# 1.0.0 (2020-07-02)
+# 1.0.0 (2021-10-20)
 
 Initial release
