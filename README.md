@@ -74,9 +74,14 @@ az spring-cloud app create -n hellospring -s <service instance name> -g <resourc
 ```
 
 
-3. Create connection(screenshot will be provided after portal is ready)
+3. Create connection
 
-select target resource type(Azure Database for MySQL) and client type(Spring boot), auth type(secret), input username and password of mysql
+CLI command:
+
+```
+az spring-cloud connection create mysql -g <SpringCloud resource group> --service <SpringCloud service> --app
+        <SpringCloud app> --tg <mysql resource group> --server <mysql server name> --database <mysql database> --secret name=<username> secret=<password>
+```
 
 4. Build the project using maven
 
