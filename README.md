@@ -89,7 +89,7 @@ az spring-cloud connection create mysql -g <SpringCloud resource group> --servic
 mvn clean package -DskipTests 
 ```
 
-5. Deploy the Jar file for the app ( build/libs/java-springboot-0.0.1-SNAPSHOT.jar):
+5. Deploy the Jar file for the app ( target/demo-0.0.1-SNAPSHOT.jar ):
 
 ```
 az spring-cloud app deploy -n hellospring -s <service instance name> -g <resource group name>  --artifact-path target/demo-0.0.1-SNAPSHOT.jar
