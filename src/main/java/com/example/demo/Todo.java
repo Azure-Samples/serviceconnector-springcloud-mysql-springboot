@@ -1,19 +1,29 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for
+ * license information.
+ */
 package com.example.demo;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
+@Entity
 public class Todo {
 
     public Todo() {
     }
 
-    public Todo(String description, String details, boolean done) {
+    public Todo(String description, String details) {
         this.description = description;
         this.details = details;
-        this.done = done;
+        this.done = false;
     }
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String description;
