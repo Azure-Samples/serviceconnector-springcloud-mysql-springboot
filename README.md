@@ -1,7 +1,6 @@
 # Using Service Connector to connect Azure Spring Cloud with Azure Database for MySQL
 
-This sample project is used for Service Connector quickstart.
-
+This sample project is used to connecting Azure Spring Cloud with Azure Database for MySQL by Service Connector service.
 
 
 ## 1. Prerequisites
@@ -10,32 +9,18 @@ This sample project is used for Service Connector quickstart.
 2. Install Java 8 or 11 </a>.
 3. Install the <a href="/cli/azure/install-azure-cli" target="_blank">Azure CLI</a> 2.18.0 or higher, with which you run commands in any shell to provision and configure Azure resources.
 
----
 
-Check that your Azure CLI version is 2.18.0 or higher:
+## 2. Create Azure Database for MySQL
 
-```azurecli
-az --version
-```
+https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal
 
-If you need to upgrade, try the `az upgrade` command (requires version 2.11+) or see <a href="/cli/azure/install-azure-cli" target="_blank">Install the Azure CLI</a>.
+## 3. Create Azure Spring Cloud
 
-Then sign in to Azure through the CLI:
+https://docs.microsoft.com/en-us/azure/spring-cloud/quickstart?tabs=Azure-CLI&pivots=programming-language-java#provision-an-instance-of-azure-spring-cloud
 
-```azurecli
-az login
-```
+## 4. Build and deploy the app
 
-This command opens a browser to gather your credentials. When the command finishes, it shows JSON output containing information about your subscriptions.
-
-Once signed in, you can run Azure commands with the Azure CLI to work with resources in your subscription.
-
-Having issues? [Let us know](https://aka.ms/DjangoCLITutorialHelp).
-
-## 2. Clone or download the sample app
-
-
-Clone the sample repository:
+1. Clone the sample repository:
 
 ```terminal
 git clone https://github.com/Azure-Samples/serviceconnector-springcloud-mysql-springboot
@@ -47,19 +32,15 @@ Go to the root folder of repository:
 cd serviceconnector-springcloud-mysql-springboot
 ```
 
-## 3. Create Azure Database for MySQL
+2. Build the project locally using maven
 
-https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal
+```
+mvn clean package -DskipTests 
+```
 
-## 4. Create a Spring Cloud application
+3. Sign in to Azure and choose your subscription.
 
-https://docs.microsoft.com/en-us/azure/spring-cloud/quickstart?tabs=Azure-CLI&pivots=programming-language-java#provision-an-instance-of-azure-spring-cloud
-
-## 5. Build and deploy the app
-
-1. Sign in to Azure and choose your subscription.
-
-Azure CLI
+Azure CLI command:
 
 ```
 az login
@@ -67,40 +48,36 @@ az login
 az account set --subscription <Name or ID of a subscription from the last step>
 ```
 
-2. Create the app with public endpoint assigned. If you selected Java version 11 when generating the Spring Cloud project, include the --runtime-version=Java_11 switch.
+4. Create Azure Spring Cloud app with public endpoint assigned. If you selected Java version 11 when generating the Spring Cloud project, include the --runtime-version=Java_11 switch.
 
 ```
 az spring-cloud app create -n hellospring -s <service instance name> -g <resource group name> --assign-endpoint true
 ```
 
 
-3. Create connection
+5. Create connection between Azure Spring Cloud and Azure database for MySQL
 
-CLI command:
+Azure CLI command
 
-```
+```terminal
 az spring-cloud connection create mysql -g <SpringCloud resource group> --service <SpringCloud service> --app
         <SpringCloud app> --tg <mysql resource group> --server <mysql server name> --database <mysql database> --secret name=<username> secret=<password>
 ```
 
-4. Build the project using maven
 
-```
-mvn clean package -DskipTests 
-```
 
-5. Deploy the Jar file for the app ( target/demo-0.0.1-SNAPSHOT.jar ):
+6. Deploy the Jar file to Azure Spring Cloud app ( target/demo-0.0.1-SNAPSHOT.jar ):
 
 ```
 az spring-cloud app deploy -n hellospring -s <service instance name> -g <resource group name>  --artifact-path target/demo-0.0.1-SNAPSHOT.jar
 ```
 
-6. Query app status after deployments with the following command.
+7. Query Azure app status after deployments with the following command.
 
-Azure CLI
+Azure CLI command
 
 ```terminal
-az spring-cloud app list -o table
+az spring-cloud app list -g <resource group name> -s <service instance name> -o table
 ```
 
 ```az-cli
@@ -108,3 +85,24 @@ Name               Location    ResourceGroup    Production Deployment    Public 
 -----------------  ----------  ---------------  -----------------------  ---------------------------------------------------  ---------------------  -----  --------  ------------------  ---------------------  --------------------
 hellospring         eastus    <resource group>   default                                                                       Succeeded              1      2         1/1                 0/1                    -
 ```
+
+8. Navigate to the app on Azure by `Public Url` returned in above table.
+
+## 5. Clean up
+Delete Azure resources created in the sample by deleting the resource group.
+```
+az group delete -g <resource group name>
+```
+
+## 6. Contributing and License
+This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.microsoft.com.
+
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
