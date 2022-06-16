@@ -1,6 +1,16 @@
-# Using Service Connector to connect Azure Spring Cloud with Azure Database for MySQL
+---
+page_type: sample
+languages:
+  - java
+products:
+  - azure
+  - service-connector
+urlFragment: serviceconnector-spirngapps-mysql-springboot
+---
 
-This sample project is used to connecting Azure Spring Cloud with Azure Database for MySQL by Service Connector service.
+# Using Service Connector to connect Azure Spring Apps with Azure Database for MySQL
+
+This sample project is used to connecting Azure Spring Apps with Azure Database for MySQL by Service Connector service.
 
 
 ## 1. Prerequisites
@@ -14,7 +24,7 @@ This sample project is used to connecting Azure Spring Cloud with Azure Database
 
 https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal
 
-## 3. Create Azure Spring Cloud
+## 3. Create Azure Spring Apps
 
 https://docs.microsoft.com/en-us/azure/spring-cloud/quickstart?tabs=Azure-CLI&pivots=programming-language-java#provision-an-instance-of-azure-spring-cloud
 
@@ -48,28 +58,28 @@ az login
 az account set --subscription <Name or ID of a subscription from the last step>
 ```
 
-4. Create Azure Spring Cloud app with public endpoint assigned. If you selected Java version 11 when generating the Spring Cloud project, include the --runtime-version=Java_11 switch.
+4. Create Azure Spring Apps app with public endpoint assigned. If you selected Java version 11 when generating the Spring Apps project, include the --runtime-version=Java_11 switch.
 
 ```
-az spring-cloud app create -n hellospring -s <service instance name> -g <resource group name> --assign-endpoint true
+az spring app create -n hellospring -s <service instance name> -g <resource group name> --assign-endpoint true
 ```
 
 
-5. Create connection between Azure Spring Cloud and Azure database for MySQL
+5. Create connection between Azure Spring App and Azure database for MySQL
 
 Azure CLI command
 
 ```terminal
-az spring-cloud connection create mysql -g <SpringCloud resource group> --service <SpringCloud service> --app
+az spring connection create mysql -g <SpringCloud resource group> --service <SpringCloud service> --app
         <SpringCloud app> --tg <mysql resource group> --server <mysql server name> --database <mysql database> --secret name=<username> secret=<password>
 ```
 
 
 
-6. Deploy the Jar file to Azure Spring Cloud app ( target/demo-0.0.1-SNAPSHOT.jar ):
+6. Deploy the Jar file to Azure Spring Apps app ( target/demo-0.0.1-SNAPSHOT.jar ):
 
 ```
-az spring-cloud app deploy -n hellospring -s <service instance name> -g <resource group name>  --artifact-path target/demo-0.0.1-SNAPSHOT.jar
+az spring app deploy -n hellospring -s <service instance name> -g <resource group name>  --artifact-path target/demo-0.0.1-SNAPSHOT.jar
 ```
 
 7. Query Azure app status after deployments with the following command.
@@ -77,7 +87,7 @@ az spring-cloud app deploy -n hellospring -s <service instance name> -g <resourc
 Azure CLI command
 
 ```terminal
-az spring-cloud app list -g <resource group name> -s <service instance name> -o table
+az spring app list -g <resource group name> -s <service instance name> -o table
 ```
 
 ```az-cli
