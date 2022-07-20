@@ -61,7 +61,7 @@ Azure CLI command
 
 ```terminal
 az spring connection create postgres -g <SpringCloud resource group> --service <SpringCloud service> --app
-        <SpringCloud app> --tg <mysql resource group> --server <mysql server name> --database <mysql database> --secret name=<username> secret=<password>
+        <SpringCloud app> --tg <mysql resource group> --server <mysql server name> --database <mysql database>
 ```
 
 
